@@ -1,0 +1,64 @@
+html,body
+{
+    margin: 0;
+    height: 100%;
+    font-size: xx-large;
+}
+
+body
+{
+    display:flex; 
+    flex-direction:column; 
+    justify-content:center;
+    align-items: center;
+    
+}
+
+.cls-del
+{
+    display: flex;
+    justify-content:center;
+    gap: 5px;
+    width: 400px;
+    height: 92.5px;
+    
+}
+
+.cls-del>button
+{
+    flex: 1;
+    margin-bottom: 5px;
+    margin-top: 5px;
+} 
+
+.input-pad 
+{
+    display: grid;
+    grid-template-columns: repeat(4,1fr);
+    grid-template-rows: repeat(4,1fr);
+    width: 400px;
+    height: 400px;
+    grid-gap: 5px;
+    align-content: stretch;
+}
+
+.display
+{
+    height: 50px;
+    width: 394px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    
+}
+
+
+button,
+.display
+{
+    border: solid 3px;
+    border-color: black;
+}
+    
+
