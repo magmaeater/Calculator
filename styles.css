@@ -2,7 +2,7 @@ html,body
 {
     margin: 0;
     height: 100%;
-    font-size: xx-large;
+    
 }
 
 body
@@ -59,6 +59,7 @@ button,
 {
     border: solid 3px;
     border-color: black;
+    font-size: xx-large;
 }
     
 
