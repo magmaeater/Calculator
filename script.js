@@ -3,6 +3,24 @@ let display = document.querySelector("#dis");
 let operatorFlag = false;
 let safe = checkSafeDecimal(display.innerHTML);
 let opList = ["/","*","-","+"];
+let equation_to_be_operated_on = "";
+
+let compute = {
+    '+': function(a, b) {
+        return a + b;
+    },
+    '*': function(a, b) {
+        return a * b;
+    },
+    '/': function(a, b) {
+        return a / b;
+    },
+    '-': function(a, b) {
+        return a - b;
+    },
+    
+};
+
 
 //function to check if you can enter decimal in provided equation
 
@@ -40,6 +58,30 @@ function checkSafeDecimal(text)
     }
 }
 
+function operate(equation)
+{
+    let arr = equation.split(" ");
+    
+    let working_answer = parseFloat(arr[0]);
+    let operator;
+
+    for(let i = 1; i < arr.length; i++)
+    {
+        if(opList.includes(arr[i]))
+        {
+            operator = arr[i];
+        }
+        else
+        {
+            working_answer = compute[operator](parseFloat(working_answer),parseFloat(arr[i]));
+        }
+    }
+    
+    console.log(typeof working_answer);
+    return Math.round(working_answer*1000)/1000;
+}
+
+
 
 button.forEach(element => 
     {
@@ -49,16 +91,20 @@ button.forEach(element =>
             let txt = element.innerHTML; 
             safe = checkSafeDecimal(display.innerHTML);
             let last_letter_is_operator = opList.includes(display.innerHTML.slice(-1));
+            let empty_display = display.innerHTML === "";
+             
             
             //equals input
             if(txt === "=")
             {
-                display.innerHTML = "";
+                display.innerHTML = `${operate(equation_to_be_operated_on)}`;
+                equation_to_be_operated_on = operate(equation_to_be_operated_on);
             }
 
             //number input
             if(isFinite(txt))
             {
+                equation_to_be_operated_on = equation_to_be_operated_on + txt; 
                 display.innerHTML += txt;
                  
             }
@@ -66,6 +112,7 @@ button.forEach(element =>
             //clear screen input
             else if(txt === "A/C")
             {
+                equation_to_be_operated_on = "";
                 display.innerHTML = "";
                 
             }
@@ -73,6 +120,17 @@ button.forEach(element =>
             //delete input
             else if(txt === 'del')
             {
+                //delete the operator properly with white space for the formatted equation that we can are gonna use for operate function
+                if(equation_to_be_operated_on.slice(-1) === " ")
+                {
+                    equation_to_be_operated_on = equation_to_be_operated_on.slice(0,-3);
+                }
+                else
+                {
+                    equation_to_be_operated_on = equation_to_be_operated_on.slice(0,-1);  
+                } 
+                console.log(equation_to_be_operated_on);
+
                 display.innerHTML = display.innerHTML.slice(0,-1);
                   
             }
@@ -80,16 +138,19 @@ button.forEach(element =>
             //decimal input
             else if(txt === '.' && safe === true)
             {
+                equation_to_be_operated_on = equation_to_be_operated_on + txt; 
                 display.innerHTML += txt;
                   
             }
 
             //operator input
-            else if(!last_letter_is_operator && display.innerHTML.slice(-1) !== '.' && txt !== '.')
+            else if(!last_letter_is_operator && !empty_display && display.innerHTML.slice(-1) !== '.' && txt !== '.' && txt !== '=')
             {
-                    display.innerHTML += txt;
+                    equation_to_be_operated_on = equation_to_be_operated_on + " " + txt + " "; 
+                    display.innerHTML = display.innerHTML + txt;
+                    
             }
 
         });
-
+        
 });
